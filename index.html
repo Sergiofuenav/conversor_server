@@ -71,7 +71,7 @@
         const number = numberInput.value;
         if (number) {
           const response = await fetch(
-            `http://localhost:3000/convert/${number}`
+            `/convert/${number}`
           );
           const data = await response.json();
           console.log("data", data)
