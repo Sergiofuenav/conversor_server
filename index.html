@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Number Conversion</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center; /* Center text horizontally */
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-size: 18px;
+      }
+
+      input {
+        padding: 8px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      #result {
+        margin-top: 20px;
+      }
+
+      p {
+        font-size: 16px;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Number Conversion</h1>
+    <label for="numberInput">Enter a Number:</label>
+    <input type="text" id="numberInput" />
+    <button id="convertButton">Convert</button>
+    <div id="result"></div>
+    <script>
+      const convertButton = document.getElementById("convertButton");
+      const numberInput = document.getElementById("numberInput");
+      const resultDiv = document.getElementById("result");
+
+      // Add an input event listener
+      numberInput.addEventListener("input", async () => {
+        const number = numberInput.value;
+        if (number) {
+          const response = await fetch(
+            `http://localhost:3000/convert/${number}`
+          );
+          const data = await response.json();
+          console.log("data", data)
+          renderResults(data);
+        } else {
+          clearResults();
+        }
+      });
+
+      function renderResults(results) {
+        resultDiv.innerHTML = "";
+        results.forEach((solution, index) => {
+          const solutionString = solution.join(", ");
+          const listItem = document.createElement("p");
+          listItem.textContent = `${index + 1}. ${solutionString}`;
+          resultDiv.appendChild(listItem);
+        });
+      }
+      function clearResults() {
+        resultDiv.innerHTML = "";
+      }
+    </script>
+  </body>
+</html>
